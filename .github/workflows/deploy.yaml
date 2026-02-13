@@ -1,0 +1,48 @@
+name: Deploy Jadwal Peminjaman Lapangan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Install NPM & Build Assets
+        run: |
+          npm run build
+
+      # STEP 1: Deploy Core Laravel (Semua file KECUALI folder public)
+      - name: 📂 Deploy Laravel Core
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /htdocs/laravel/
+          exclude: |
+            **/public/**
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
+            **/vendor/**
+            **/credentials/**
+
+      # STEP 2: Deploy Public Files (Hanya isi folder public)
+      - name: 📂 Deploy Public Assets
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/
+          server-dir: /htdocs/
+          exclude: |
+            index.php
+            .htaccess
