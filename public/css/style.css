@@ -1,0 +1,468 @@
+/* Global Styles - Dark Theme */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1 0 auto;
+}
+
+/* Brand Colors */
+:root {
+    --brand-blue: #0984e3;
+    --brand-yellow: #fdcb6e;
+    --brand-black: #121212;
+    --brand-dark-grey: #1e1e1e;
+}
+
+/* Typography Enhancements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #ffffff !important;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+strong {
+    color: #ffffff;
+}
+
+/* Navbar Enhancements */
+.navbar {
+    background-color: #1e1e1e;
+    border-bottom: 2px solid var(--brand-blue);
+    z-index: 50;
+}
+
+.navbar-item,
+.navbar-link {
+    color: #e0e0e0;
+}
+
+.navbar-item:hover,
+.navbar-link:hover {
+    background-color: #2d3436 !important;
+    color: var(--brand-yellow) !important;
+}
+
+.brand-logo strong {
+    font-size: 1.25rem;
+    color: #ffffff;
+    margin-left: 10px;
+}
+
+/* Hero Section */
+.hero-gradient {
+    background: linear-gradient(135deg, #000000 0%, #0984e3 100%);
+    color: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(9, 132, 227, 0.3);
+    margin-bottom: 2rem;
+    border: 1px solid #333;
+}
+
+.hero-gradient .title {
+    color: var(--brand-yellow) !important;
+}
+
+.hero-gradient .subtitle {
+    color: #f1f2f6 !important;
+}
+
+/* Card Enhancements - Dark Mode */
+.card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+}
+
+.card-header {
+    background-color: #2d3436;
+    border-bottom: 1px solid #333;
+    box-shadow: none;
+}
+
+.card-header-title {
+    color: var(--brand-yellow) !important;
+}
+
+.card-content {
+    background-color: #1e1e1e;
+}
+
+/* Forms & Inputs */
+.label {
+    color: #b2bec3;
+}
+
+.input,
+.select select,
+.textarea {
+    background-color: #2d3436;
+    border: 1px solid #444;
+    color: #ffffff;
+    box-shadow: none;
+}
+
+.input::placeholder {
+    color: #636e72;
+}
+
+.input:focus,
+.select select:focus,
+.textarea:focus {
+    border-color: var(--brand-blue);
+    box-shadow: 0 0 0 1px var(--brand-blue);
+}
+
+/* Make native date picker icon white for dark mode */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Fix browser autofill background for dark theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #2d3436 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* --- PREMIUM BUTTON DESIGN SYSTEM --- */
+.button.is-primary {
+    background-color: var(--brand-blue) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    box-shadow: 0 4px 6px rgba(9, 132, 227, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.button.is-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.button.is-primary:hover {
+    background-color: #0d92f5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(9, 132, 227, 0.4), 0 0 8px rgba(9, 132, 227, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.button.is-primary:hover::after {
+    opacity: 1;
+}
+
+.button.is-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(9, 132, 227, 0.2) !important;
+}
+
+/* Outlined variant */
+.button.is-primary.is-outlined {
+    background-color: rgba(9, 132, 227, 0.05) !important;
+    border: 2px solid var(--brand-blue) !important;
+    color: var(--brand-blue) !important;
+    box-shadow: none;
+}
+
+.button.is-primary.is-outlined:hover {
+    background-color: var(--brand-blue) !important;
+    color: white !important;
+    border-color: var(--brand-blue) !important;
+    box-shadow: 0 8px 15px rgba(9, 132, 227, 0.3) !important;
+}
+
+/* Unified Roundedness */
+.button.is-rounded {
+    border-radius: 12px !important;
+    /* Premium semi-rounded look instead of full pill */
+}
+
+/* Light buttons */
+.button.is-light {
+    background-color: #2d3436;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    transition: all 0.3s ease;
+}
+
+.button.is-light:hover {
+    background-color: #3d3d3d;
+    color: #ffffff;
+    border-color: #636e72;
+    transform: translateY(-1px);
+}
+
+/* Disable any lingering movements */
+.shadow-hover:hover {
+    transform: translateY(-2px) !important;
+}
+
+/* ------------------------------------ */
+
+/* Table Enhancements */
+.table-wrapper {
+    background: transparent;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: none;
+    border: none;
+}
+
+.table {
+    background-color: transparent;
+    color: #e0e0e0;
+}
+
+.table th {
+    color: var(--brand-yellow);
+    border-bottom: 1px solid #444;
+}
+
+.table td {
+    border-bottom: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.table.is-striped tbody tr:not(.is-selected):nth-child(even) {
+    background-color: transparent;
+}
+
+.table.is-hoverable tbody tr:not(.is-selected):hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Footer */
+.footer {
+    background-color: #000000;
+    padding: 3rem 1.5rem;
+    color: #b2bec3;
+    border-top: 3px solid var(--brand-blue);
+}
+
+.footer strong {
+    color: var(--brand-yellow);
+}
+
+/* Utilities */
+.box {
+    background-color: #2d3436;
+    color: #e0e0e0;
+}
+
+.notification.is-success.is-light {
+    background-color: #254030;
+    color: #81e6d9;
+}
+
+.notification.is-danger.is-light {
+    background-color: #4a2123;
+    color: #feb2b2;
+}
+
+.has-text-grey {
+    color: #b2bec3 !important;
+}
+
+.has-background-white-ter {
+    background-color: #2d3436 !important;
+}
+
+.tag.is-info.is-light {
+    background-color: rgba(9, 132, 227, 0.2);
+    color: #74b9ff;
+}
+
+.tag.is-success.is-light {
+    background-color: rgba(0, 184, 148, 0.2);
+    color: #55efc4;
+}
+
+/* Mobile Responsiveness Adjustments */
+@media screen and (max-width: 1023px) {
+    .navbar-menu {
+        background-color: #1e1e1e;
+        border-top: 1px solid #333;
+    }
+
+    .navbar-item,
+    .navbar-link {
+        color: #e0e0e0;
+    }
+
+    .section {
+        padding: 1rem 0.5rem;
+    }
+
+    .hero-body {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .hero-gradient .title {
+        font-size: 1.75rem !important;
+    }
+
+    /* --- MOBILE TABLE TRANSFORMATION --- */
+    /* Force table to not be a table anymore */
+    .table-container {
+        border: none !important;
+    }
+
+    .table,
+    .table thead,
+    .table tbody,
+    .table th,
+    .table td,
+    .table tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .table tr {
+        border: 1px solid #444;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        background: transparent !important;
+        padding: 0.75rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .table td {
+        /* Behave  like a "row" */
+        border: none !important;
+        border-bottom: 1px solid #3d3d3d !important;
+        position: relative;
+        padding-left: 45% !important;
+        text-align: left !important;
+        min-height: 3rem;
+        display: flex;
+        align-items: center;
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .table td:last-child {
+        border-bottom: 0 !important;
+    }
+
+    .table td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        left: 10px;
+        width: 40%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        color: var(--brand-yellow);
+        content: attr(data-label);
+    }
+
+    /* Custom Alignment for Mobile Table Cells */
+    .table td span.tag {
+        margin-left: 0;
+    }
+
+    .table-wrapper {
+        padding: 0.5rem;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+/* --- AIR DATEPICKER PREMIUM DARK STYLING --- */
+.air-datepicker {
+    --adp-background-color: #1e1e1e !important;
+    --adp-color: #ffffff !important;
+    --adp-accent-color: var(--brand-blue) !important;
+    --adp-background-color-hover: #2d3436 !important;
+    --adp-background-color-active: var(--brand-blue) !important;
+    --adp-background-color-selected: var(--brand-blue) !important;
+    --adp-color-other-month: #444444 !important;
+    --adp-color-disabled: #333333 !important;
+    --adp-border-color: #444444 !important;
+    --adp-nav-color-secondary: #aaaaaa !important;
+
+    background-color: #1e1e1e !important;
+    border: 1px solid #444 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+}
+
+.air-datepicker-nav--title,
+.air-datepicker-nav--title i,
+.air-datepicker-nav--action svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.air-datepicker-cell.-current- {
+    color: var(--brand-yellow) !important;
+    border: 1px solid var(--brand-yellow) !important;
+    font-weight: bold;
+}
+
+.air-datepicker-cell.-selected- {
+    background: var(--brand-blue) !important;
+    color: #ffffff !important;
+}
+
+.air-datepicker-nav--action:hover {
+    background: #2d3436 !important;
+}
+
+.air-datepicker-body--day-name {
+    color: var(--brand-yellow) !important;
+    font-weight: 600 !important;
+}
+
+.air-datepicker-cell.-day-.-other-month- {
+    color: #444 !important;
+}
+
+/* Ensure selected date remains white text */
+.air-datepicker-cell.-selected-.-current- {
+    background: var(--brand-blue) !important;
+    color: #ffffff !important;
+}
+
+/* ------------------------------------------ */
