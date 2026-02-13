@@ -13,10 +13,6 @@ jobs:
       - name: 🚚 Checkout code
         uses: actions/checkout@v4
 
-      - name: 🏗️ Install NPM & Build Assets
-        run: |
-          npm run build
-
       # STEP 1: Deploy Core Laravel (Semua file KECUALI folder public)
       - name: 📂 Deploy Laravel Core
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
