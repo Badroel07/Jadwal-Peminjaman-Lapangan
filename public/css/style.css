@@ -134,10 +134,10 @@ strong {
     box-shadow: 0 0 0 1px var(--brand-blue);
 }
 
-/* Make native date picker icon white for dark mode */
+/* Hide native date picker icon indicator */
 input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    cursor: pointer;
+    display: none !important;
+    -webkit-appearance: none;
 }
 
 /* Fix browser autofill background for dark theme */
@@ -408,61 +408,6 @@ input:-webkit-autofill:active {
         border: none;
         box-shadow: none;
     }
-}
-
-/* --- AIR DATEPICKER PREMIUM DARK STYLING --- */
-.air-datepicker {
-    --adp-background-color: #1e1e1e !important;
-    --adp-color: #ffffff !important;
-    --adp-accent-color: var(--brand-blue) !important;
-    --adp-background-color-hover: #2d3436 !important;
-    --adp-background-color-active: var(--brand-blue) !important;
-    --adp-background-color-selected: var(--brand-blue) !important;
-    --adp-color-other-month: #444444 !important;
-    --adp-color-disabled: #333333 !important;
-    --adp-border-color: #444444 !important;
-    --adp-nav-color-secondary: #aaaaaa !important;
-
-    background-color: #1e1e1e !important;
-    border: 1px solid #444 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
-}
-
-.air-datepicker-nav--title,
-.air-datepicker-nav--title i,
-.air-datepicker-nav--action svg {
-    color: #ffffff !important;
-    stroke: #ffffff !important;
-}
-
-.air-datepicker-cell.-current- {
-    color: var(--brand-yellow) !important;
-    border: 1px solid var(--brand-yellow) !important;
-    font-weight: bold;
-}
-
-.air-datepicker-cell.-selected- {
-    background: var(--brand-blue) !important;
-    color: #ffffff !important;
-}
-
-.air-datepicker-nav--action:hover {
-    background: #2d3436 !important;
-}
-
-.air-datepicker-body--day-name {
-    color: var(--brand-yellow) !important;
-    font-weight: 600 !important;
-}
-
-.air-datepicker-cell.-day-.-other-month- {
-    color: #444 !important;
-}
-
-/* Ensure selected date remains white text */
-.air-datepicker-cell.-selected-.-current- {
-    background: var(--brand-blue) !important;
-    color: #ffffff !important;
 }
 
 /* ------------------------------------------ */

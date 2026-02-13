@@ -38,45 +38,41 @@ class ScheduleController extends Controller
                 try {
                     // Force dd/mm/yyyy parsing for slash-separated dates
                     $bookingDate = str_contains($dateStr, '/')
-                        ?\Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $dateStr)[0])->startOfDay()
+                        ? \Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $dateStr)[0])->startOfDay()
                         : \Illuminate\Support\Carbon::parse($dateStr)->startOfDay();
 
                     return $bookingDate->greaterThanOrEqualTo($today);
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     return false;
                 }
             })
                 ->sortBy(function ($row) {
-                try {
-                    $dateStr = $row[1] ?? '';
-                    $timeStr = $row[4] ?? '00:00';
-                    $dt = str_contains($dateStr, '/')
-                        ?\Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $dateStr)[0])
-                        : \Illuminate\Support\Carbon::parse($dateStr);
-                    return $dt->format('Y-m-d') . ' ' . $timeStr;
-                }
-                catch (\Exception $e) {
-                    return $row[1] ?? '';
-                }
-            })
-                ->map(function ($row) {
-                if (isset($row[1])) {
                     try {
-                        $dt = str_contains($row[1], '/')
-                            ?\Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $row[1])[0])
-                            : \Illuminate\Support\Carbon::parse($row[1]);
-                        $row[1] = $dt->format('d/m/Y');
+                        $dateStr = $row[1] ?? '';
+                        $timeStr = $row[4] ?? '00:00';
+                        $dt = str_contains($dateStr, '/')
+                            ? \Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $dateStr)[0])
+                            : \Illuminate\Support\Carbon::parse($dateStr);
+                        return $dt->format('Y-m-d') . ' ' . $timeStr;
+                    } catch (\Exception $e) {
+                        return $row[1] ?? '';
                     }
-                    catch (\Exception $e) {
-                    // keep original if parsing fails
+                })
+                ->map(function ($row) {
+                    if (isset($row[1])) {
+                        try {
+                            $dt = str_contains($row[1], '/')
+                                ? \Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $row[1])[0])
+                                : \Illuminate\Support\Carbon::parse($row[1]);
+                            $row[1] = $dt->format('d/m/Y');
+                        } catch (\Exception $e) {
+                            // keep original if parsing fails
+                        }
                     }
-                }
-                return $row;
-            });
-        }
-        catch (\Exception $e) {
-        // Silently fail or log
+                    return $row;
+                });
+        } catch (\Exception $e) {
+            // Silently fail or log
         }
 
         return view('schedule.index', [
@@ -115,22 +111,29 @@ class ScheduleController extends Controller
                 if (count($booking) < 6)
                     continue;
 
-                $existingDate = $booking[1]; // Column B
+                $existingDateRaw = $booking[1]; // Column B
                 $existingStart = $booking[4]; // Column E
                 $existingEnd = $booking[5]; // Column F
 
-                // Check date match
-                if ($existingDate == $validated['tanggal']) {
-                    // Check time overlap
-                    // Rule: (StartA < EndB) and (EndA > StartB)
-                    if ($validated['waktu_mulai'] < $existingEnd && $validated['waktu_berakhir'] > $existingStart) {
-                        return back()->withErrors(['waktu_mulai' => 'Jadwal bentrok dengan peminjaman lain (' . $existingStart . ' - ' . $existingEnd . ')'])->withInput();
+                try {
+                    // Normalize existing date for comparison
+                    $existingDateNormalized = str_contains($existingDateRaw, '/')
+                        ? \Illuminate\Support\Carbon::createFromFormat('d/m/Y', explode(' ', $existingDateRaw)[0])->format('Y-m-d')
+                        : \Illuminate\Support\Carbon::parse($existingDateRaw)->format('Y-m-d');
+
+                    // Check date match
+                    if ($existingDateNormalized == $validated['tanggal']) {
+                        // Check time overlap
+                        if ($validated['waktu_mulai'] < $existingEnd && $validated['waktu_berakhir'] > $existingStart) {
+                            return back()->withErrors(['waktu_mulai' => 'Jadwal bentrok dengan peminjaman lain (' . $existingStart . ' - ' . $existingEnd . ')'])->withInput();
+                        }
                     }
+                } catch (\Exception $e) {
+                    continue;
                 }
             }
 
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             // If we can't check, maybe proceed or warn? 
             // For safety, let's allow but maybe log. Ideally we should block if we can't verify.
             // But to avoid blocking valid usage on API error, we might skip check or return error. 
@@ -153,23 +156,24 @@ class ScheduleController extends Controller
 
         try {
             // Append to Google Sheet
-            // Order: Timestamp, Hari/Tanggal, Nama Peminjam, Nama Kegiatan, Waktu Mulai, Waktu Berakhir
+            // Standardize date to d/m/Y before saving to match index expectations
+            $formattedDate = \Illuminate\Support\Carbon::parse($validated['tanggal'])->format('d/m/Y');
+
             Sheets::spreadsheet(config('google.post_spreadsheet_id'))
                 ->sheet(config('google.post_sheet_name'))
                 ->append([
-                [
-                    now()->toDateTimeString(), // Timestamp (Column A)
-                    $validated['tanggal'], // Hari/Tanggal (Column B)
-                    $validated['nama_peminjam'], // Nama Peminjam (Column C)
-                    $validated['nama_kegiatan'], // Nama Kegiatan (Column D)
-                    $validated['waktu_mulai'], // Waktu Mulai (Column E)
-                    $validated['waktu_berakhir'] // Waktu Berakhir (Column F)
-                ]
-            ]);
+                    [
+                        now()->toDateTimeString(), // A: Timestamp
+                        $formattedDate,            // B: Hari/Tanggal
+                        $validated['nama_peminjam'], // C: Nama Peminjam
+                        $validated['nama_kegiatan'], // D: Nama Kegiatan
+                        $validated['waktu_mulai'],    // E: Waktu Mulai
+                        $validated['waktu_berakhir']  // F: Waktu Berakhir
+                    ]
+                ], 'USER_ENTERED', 'INSERT_ROWS');
 
             return redirect()->route('schedule.index')->with('success', 'Booking berhasil dibuat!');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return back()->with('error', 'Gagal menyimpan data ke Google Sheets: ' . $e->getMessage())->withInput();
         }
     }
