@@ -6,13 +6,13 @@
             <div class="flat-container">
                 <div class="flat-header">
                     <p class="flat-header-title">
-                        <span class="icon is-medium mr-2">
+                        <span class="icon mr-2">
                             <i class="fas fa-calendar-plus has-text-primary"></i>
                         </span>
                         Form Booking Lapangan
                     </p>
                 </div>
-                
+
                 <form action="{{ route('schedule.confirm') }}" method="POST">
                     @csrf
 
@@ -45,8 +45,8 @@
                             <div class="field">
                                 <label class="label">Hari/Tanggal</label>
                                 <div class="control has-icons-left">
-                                    <input class="input" type="date" name="tanggal" value="{{ old('tanggal') }}"
-                                        required onkeydown="return false" onclick="this.showPicker()">
+                                    <input class="input" type="date" name="tanggal" value="{{ old('tanggal') }}" required
+                                        onkeydown="return false" onclick="this.showPicker()">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>
                                     </span>
@@ -110,7 +110,7 @@
                     </div>
                 </form>
             </div>
-            
+
             <div class="has-text-centered mt-4">
                 <a href="{{ route('schedule.index') }}" class="button is-text has-text-grey">
                     <span class="icon"><i class="fas fa-arrow-left"></i></span>
