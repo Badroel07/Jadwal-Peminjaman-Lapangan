@@ -105,11 +105,28 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Notification delete logic
-            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-                const $notification = $delete.parentNode;
-                $delete.addEventListener('click', () => {
-                    $notification.parentNode.removeChild($notification);
-                });
+            (document.querySelectorAll('.notification') || []).forEach(($notification) => {
+                const $delete = $notification.querySelector('.delete');
+
+                // Manual delete
+                if ($delete) {
+                    $delete.addEventListener('click', () => {
+                        $notification.parentNode.removeChild($notification);
+                    });
+                }
+
+                // Auto hide after 5 seconds
+                setTimeout(() => {
+                    if ($notification.parentNode) {
+                        $notification.style.transition = 'opacity 0.5s ease';
+                        $notification.style.opacity = '0';
+                        setTimeout(() => {
+                            if ($notification.parentNode) {
+                                $notification.parentNode.removeChild($notification);
+                            }
+                        }, 500);
+                    }
+                }, 5000);
             });
 
             // Navbar Burger logic

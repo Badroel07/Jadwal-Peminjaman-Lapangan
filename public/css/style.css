@@ -62,6 +62,73 @@ strong {
     color: var(--brand-yellow) !important;
 }
 
+/* Navbar Burger - Nuclear 3-Line to X Fix */
+nav.navbar .navbar-burger {
+    color: var(--brand-blue) !important;
+    width: 3.25rem !important;
+    height: 3.25rem !important;
+    display: block !important;
+    position: relative !important;
+    cursor: pointer !important;
+    background: transparent !important;
+}
+
+nav.navbar .navbar-burger span {
+    background-color: currentColor !important;
+    display: block !important;
+    height: 2px !important;
+    left: 50% !important;
+    margin-left: -11px !important;
+    position: absolute !important;
+    top: 50% !important;
+    width: 22px !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+/* Normal State: 3 Lines */
+nav.navbar .navbar-burger span:nth-child(1) {
+    margin-top: -8px !important;
+}
+
+nav.navbar .navbar-burger span:nth-child(2) {
+    margin-top: -1px !important;
+    opacity: 1 !important;
+}
+
+nav.navbar .navbar-burger span:nth-child(3) {
+    margin-top: 6px !important;
+}
+
+/* Active State: Hide Spans */
+nav.navbar .navbar-burger.is-active span {
+    opacity: 0 !important;
+    display: none !important;
+}
+
+/* Active State: Create X with Pseudo-elements */
+nav.navbar .navbar-burger.is-active::before,
+nav.navbar .navbar-burger.is-active::after {
+    background-color: currentColor !important;
+    content: "" !important;
+    display: block !important;
+    height: 2px !important;
+    left: 50% !important;
+    margin-left: -11px !important;
+    margin-top: -1px !important;
+    position: absolute !important;
+    top: 50% !important;
+    width: 22px !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+nav.navbar .navbar-burger.is-active::before {
+    transform: rotate(45deg) !important;
+}
+
+nav.navbar .navbar-burger.is-active::after {
+    transform: rotate(-45deg) !important;
+}
+
 .brand-logo strong {
     font-size: 1.25rem;
     color: #ffffff;
@@ -70,12 +137,13 @@ strong {
 
 /* Hero Section */
 .hero-gradient {
-    background: linear-gradient(135deg, #000000 0%, #0984e3 100%);
+    background: linear-gradient(135deg, #121212 0%, #0984e3 100%);
     color: white;
-    border-radius: 1rem;
-    box-shadow: 0 10px 20px rgba(9, 132, 227, 0.3);
+    border-radius: 12px;
     margin-bottom: 2rem;
-    border: 1px solid #333;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    /* Removed shadow */
 }
 
 .hero-gradient .title {
@@ -86,27 +154,25 @@ strong {
     color: #f1f2f6 !important;
 }
 
-/* Card Enhancements - Dark Mode */
-.card {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    color: #e0e0e0;
+/* Flat Container Replacement for Cards */
+.flat-container {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
 }
 
-.card-header {
-    background-color: #2d3436;
-    border-bottom: 1px solid #333;
-    box-shadow: none;
+.flat-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(9, 132, 227, 0.3);
 }
 
-.card-header-title {
+.flat-header-title {
     color: var(--brand-yellow) !important;
-}
-
-.card-content {
-    background-color: #1e1e1e;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 /* Forms & Inputs */
@@ -190,6 +256,20 @@ input:-webkit-autofill:active {
     box-shadow: 0 4px 6px rgba(9, 132, 227, 0.2) !important;
 }
 
+.button.is-primary[disabled] {
+    background-color: #2d3436 !important;
+    color: #636e72 !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.button.is-primary[disabled]::after {
+    display: none;
+}
+
+
 /* Outlined variant */
 .button.is-primary.is-outlined {
     background-color: rgba(9, 132, 227, 0.05) !important;
@@ -207,9 +287,13 @@ input:-webkit-autofill:active {
 
 /* Unified Roundedness */
 .button.is-rounded {
-    border-radius: 12px !important;
-    /* Premium semi-rounded look instead of full pill */
+    border-radius: 8px !important;
 }
+
+.has-radius {
+    border-radius: 8px !important;
+}
+
 
 /* Light buttons */
 .button.is-light {
@@ -316,6 +400,13 @@ input:-webkit-autofill:active {
     .navbar-menu {
         background-color: #1e1e1e;
         border-top: 1px solid #333;
+        text-align: center;
+        /* Center the links */
+    }
+
+    .navbar-menu .buttons {
+        justify-content: center;
+        /* Center the buttons */
     }
 
     .navbar-item,
@@ -332,13 +423,22 @@ input:-webkit-autofill:active {
     }
 
     .hero-gradient .title {
-        font-size: 1.75rem !important;
+        font-size: 1.5rem !important;
+        /* Reduced from 1.75rem */
     }
 
-    /* --- MOBILE TABLE TRANSFORMATION --- */
-    /* Force table to not be a table anymore */
+    .title.is-4 {
+        font-size: 1.25rem !important;
+    }
+
+    .title.is-5 {
+        font-size: 1.1rem !important;
+    }
+
+    /* --- MOBILE TABLE CARD TRANSFORMATION --- */
     .table-container {
         border: none !important;
+        background: transparent !important;
     }
 
     .table,
@@ -347,10 +447,10 @@ input:-webkit-autofill:active {
     .table th,
     .table td,
     .table tr {
-        display: block;
+        display: block !important;
     }
 
-    /* Hide table headers (but not display: none;, for accessibility) */
+    /* Hide table headers on mobile */
     .table thead tr {
         position: absolute;
         top: -9999px;
@@ -358,26 +458,23 @@ input:-webkit-autofill:active {
     }
 
     .table tr {
-        border: 1px solid #444;
-        border-radius: 12px;
-        margin-bottom: 1.5rem;
-        background: transparent !important;
-        padding: 0.75rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        margin-bottom: 1.5rem !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        padding: 0.5rem !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
     }
 
     .table td {
-        /* Behave  like a "row" */
         border: none !important;
-        border-bottom: 1px solid #3d3d3d !important;
-        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        position: relative !important;
         padding-left: 45% !important;
         text-align: left !important;
-        min-height: 3rem;
-        display: flex;
+        min-height: 2.8rem;
+        display: flex !important;
         align-items: center;
-        padding-top: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
     }
 
     .table td:last-child {
@@ -385,28 +482,37 @@ input:-webkit-autofill:active {
     }
 
     .table td:before {
-        /* Now like a table header */
+        content: attr(data-label);
         position: absolute;
-        /* Top/left values mimic padding */
-        left: 10px;
+        left: 15px;
         width: 40%;
-        padding-right: 10px;
-        white-space: nowrap;
         font-weight: 600;
         color: var(--brand-yellow);
-        content: attr(data-label);
+        font-size: 0.9rem;
     }
 
-    /* Custom Alignment for Mobile Table Cells */
-    .table td span.tag {
-        margin-left: 0;
+    .table td[data-label="Tanggal"] {
+        background: rgba(9, 132, 227, 0.05);
+        border-radius: 12px 12px 0 0;
     }
 
-    .table-wrapper {
-        padding: 0.5rem;
-        background: transparent;
-        border: none;
-        box-shadow: none;
+
+    /* Adjust Flat Container for Mobile */
+    .flat-container {
+        padding: 1.25rem !important;
+        /* Reduced padding */
+    }
+
+    .flat-header-title {
+        font-size: 1.25rem !important;
+        /* Smaller font size */
+        display: flex;
+        align-items: flex-start;
+        line-height: 1.4;
+    }
+
+    .flat-header-title .icon {
+        margin-top: 0.2rem;
     }
 }
 
